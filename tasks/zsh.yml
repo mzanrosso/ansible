@@ -1,0 +1,5 @@
+---
+- name: Set zsh as default shell
+  ansible.builtin.user:
+    name: "{{ username }}"
+    shell: /bin/zsh

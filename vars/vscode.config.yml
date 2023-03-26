@@ -1,0 +1,35 @@
+---
+vscode_extensions:
+  - 42Crunch.vscode-openapi
+  - aaron-bond.better-comments
+  - bierner.color-info
+  - christian-kohler.npm-intellisense
+  - dbaeumer.vscode-eslint
+  - eamodio.gitlens
+  - esbenp.prettier-vscode
+  - henriiik.vscode-sort
+  - idleberg.openvpn
+  - mikestead.dotenv
+  - ms-azuretools.vscode-docker
+  - MS-CEINTL.vscode-language-pack-it
+  - ms-python.isort
+  - ms-python.python
+  - ms-python.vscode-pylance
+  - ms-toolsai.jupyter
+  - ms-toolsai.jupyter-keymap
+  - ms-toolsai.jupyter-renderers
+  - ms-toolsai.vscode-jupyter-cell-tags
+  - ms-toolsai.vscode-jupyter-slideshow
+  - ms-vscode-remote.remote-containers
+  - ms-vscode.makefile-tools
+  - mtxr.sqltools
+  - mtxr.sqltools-driver-mysql
+  - mtxr.sqltools-driver-pg
+  - naumovs.color-highlight
+  - rangav.vscode-thunder-client
+  - redhat.vscode-yaml
+  - streetsidesoftware.code-spell-checker
+  - usernamehw.errorlens
+  - vscode-icons-team.vscode-icons
+  - xabikos.JavaScriptSnippets
+  - yzhang.markdown-all-in-one

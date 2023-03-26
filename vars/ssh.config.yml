@@ -1,0 +1,20 @@
+---
+ssh_keys_dir: "{{ ansible_env.HOME }}/.ssh"
+ssh_keys_pairs:
+  default:
+    type: ed25519
+    bits: 4096
+    path: "{{ ssh_keys_dir }}/id_ed25519"
+    email: "{{ email }}"
+    password: "{{ email }}"
+ssh_keys_config:
+  - host: "*"
+    config:
+      - [ "AddKeysToAgent", "yes" ]
+      - [ "UseKeychain", "yes" ]
+  - host: "Github"
+    config:
+      - [ "User", "git" ]
+      - [ "HostName", "github.com" ]
+      - [ "PreferredAuthentications", "publickey" ]
+      - [ "IdentityFile", "~/.ssh/id_ed25519" ]

@@ -1,0 +1,4 @@
+---
+full_name: "Marco Zanrosso"
+email: "marco.zanrosso@company.com"
+username: lookup('env', 'USER')

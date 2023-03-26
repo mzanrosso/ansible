@@ -1,0 +1,8 @@
+---
+collections:
+  - name: gordian_jklapacz.mac
+roles:
+  - name: lwalley.ssh-keys
+    src: https://github.com/lwalley/ansible-role-ssh-keys.git
+  - name: lwalley.ssh-keys
+    src: https://github.com/netson/ansible-gpg-key.git

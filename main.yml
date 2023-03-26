@@ -1,0 +1,34 @@
+---
+- hosts: all
+
+  vars_files:
+    - default.config.yml
+    - homebrew.config.yml
+    - dock.config.yml
+    - ssh.config.yml
+    - vscode.config.yml
+
+  #pre_task:
+
+  roles:
+    - name: Configure Homebrew
+      role: gordian_jklapacz.mac.homebrew
+      tags: ["all", "homebrew"]
+
+    - name: Configure dock
+      role: gordian_jklapacz.mac.dock
+      tags: ["all", "dock"]
+
+    - name: Configure SSH
+      role: lwalley.ssh-keys
+      tags: ["all", "ssh"]
+
+  tasks:
+    - include_tasks: tasks/gpg.yml
+      tags: ["all", "gpg_create","gpg_delete"]
+    # NOTE: not tested and only limited to extensions
+    - include_tasks: tasks/vscode.yml
+      args:
+        apply:
+          tags: ["all", "vscode"]
+      tags: ["all", "vscode"]

@@ -1,0 +1,70 @@
+---
+- name: Create gpg key
+  shell: >
+    gpg --batch --gen-key <<EOF
+      Key-Type: 1
+      Key-Length: 4096
+      Subkey-Type: 1
+      Subkey-Length: 4096
+      Name-Real: {{ full_name }}
+      Name-Email: {{ email }}
+      Expire-Date: 0
+      %no-protection
+    EOF
+  no_log: true
+  tags: ["all", "gpg_create"]
+
+- name: Register key fingerprint
+  shell: >
+    gpg --list-keys --list-options show-only-fpr-mbox \
+      '{{ email }}' | grep -oE "^([a-zA-Z0-9])*"
+  no_log: true
+  ignore_errors: true
+  register: key_fingerprint
+  tags: ["all", "gpg_create","gpg_delete"]
+
+- name: Print key_fingerprint variable
+  debug:
+    var: key_fingerprint.stdout
+  tags: ["debug"]
+
+- name: Configure signing key
+  git_config:
+    name:   user.signingKey
+    scope:  global
+    value:  "{{ key_fingerprint.stdout }}"
+  when: >
+    (key_fingerprint.stdout | length > 0) and
+    (key_fingerprint.stderr | length == 0)
+  tags: ["all", "gpg_create"]
+
+- name: Sign commits automatically
+  git_config:
+    name:   commit.gpgsign
+    scope:  global
+    value:  "true"
+  tags: ["all", "gpg_create"]
+
+- name: Delete gpg key
+  shell:
+    gpg --batch --delete-secret-and-public-key {{ key_fingerprint.stdout }}
+  when: >
+    (key_fingerprint.stdout | length > 0) and
+    (key_fingerprint.stderr | length == 0)
+  no_log: true
+  tags: ["gpg_delete"]
+
+- name: Configure signing key
+  git_config:
+    name:   user.signingKey
+    scope:  global
+    value:  ""
+  tags: ["gpg_delete"]
+
+- name: Sign commits automatically
+  git_config:
+    name:   commit.gpgsign
+    scope:  global
+    value:  "false"
+  tags: ["gpg_delete"]
+

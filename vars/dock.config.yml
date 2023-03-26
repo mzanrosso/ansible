@@ -1,0 +1,153 @@
+---
+dockitems_persist:
+  - name: Safari
+    path: "/Applications/Safari.app/"
+    pos: 1
+  - name: Google Chrome
+    path: "/Applications/Google Chrome.app/"
+    pos: 2
+  - name: Postman
+    path: "/Applications/Postman.app/"
+    pos: 3
+  - name: Miro
+    path: "/Applications/Miro.app/"
+    pos: 4
+  - name: Microsoft Teams
+    path: "/Applications/Microsoft Teams.app/"
+    pos: 5
+  - name: Mail
+    path: "/System/Applications/Utilities/Microsoft Outlook.app/"
+    pos: 6
+  - name: Visual Studio Code
+    path: "/Applications/Visual Studio Code.app/"
+    pos: 7
+  - name: App Store
+    path: "/System/Applications/Utilities/App Store.app"
+    pos: 8
+  - name: Note
+    path: "/System/Applications/Utilities/Note.app/"
+    pos: 9
+  - name: Iterm
+    path: "/Applications/Iterm.app/"
+    pos: 10
+  - name: Activity Monitor
+    path: "/System/Applications/Utilities/Activity Monitor.app"
+    pos: 11
+  - name: System Preferences
+    path: "/System/Applications/Utilities/System Preferences.app"
+    pos: 12
+
+dockitems_persist_total:
+  - name: Tor Browser
+    path: "/Applications/Tor Browser.app"
+  - name: Safari
+    path: "/Applications/Safari.app/"
+    pos: 2
+  - name: Firefox
+    path: "/Applications/Firefox.app/"
+    pos: 3
+  - name: Google Chrome
+    path: "/Applications/Google Chrome.app/"
+    pos: 4
+  - name: Mail
+    path: "/System/Applications/Utilities/Mail.app/"
+    pos: 5
+  - name: Draw.io
+    path: "/Applications/draw.io.app/"
+    pos: 6
+  - name: Visual Studio Code
+    path: "/Applications/Visual Studio Code.app/"
+    pos: 7
+  - name: Atom
+    path: "/Applications/Atom.app/"
+    pos: 8
+  - name: Iterm
+    path: "/Applications/Iterm.app/"
+    pos: 9
+  - name: Postman
+    path: "/Applications/Postman.app/"
+    pos: 10
+  - name: Pages
+    path: "/System/Applications/Utilities/Pages.app/"
+    pos: 11
+  - name: Numbers
+    path: "/System/Applications/Utilities/Numbers.app/"
+    pos: 12
+  - name: Keynote
+    path: "/System/Applications/Utilities/Keynote.app/"
+    pos: 13
+  - name: SQLPro Studio
+    path: "/Applications/SQLPro Studio.app/"
+    pos: 14
+  - name: MongoDB Compass
+    path: "/Applications/MongoDB Compass.app/"
+    pos: 15
+  - name: aMule
+    path: "/Applications/aMule.app/"
+    pos: 16
+  - name: qBittorrent
+    path: "/Applications/qBittorrent.app/"
+    pos: 17
+  - name: balenaEtcher
+    path: "/Applications/balenaEtcher.app/"
+    pos: 18
+  - name: Final Cut Pro
+    path: "/Applications/Final Cut Pro.app/"
+    pos: 19
+  - name: Slack
+    path: "/Applications/Slack.app/"
+    pos: 20
+  - name: Microsoft Teams
+    path: "/Applications/Microsoft Teams.app/"
+    pos: 21
+  - name: Messaggi
+    path: "/System/Applications/Utilities/Messaggi.app/"
+    pos: 22
+  - name: Telegram
+    path: "/Applications/Telegram.app/"
+    pos: 23
+  - name: VLC
+    path: "/Applications/VLC.app/"
+    pos: 24
+  - name: Note
+    path: "/System/Applications/Utilities/Note.app/"
+    pos: 25
+  - name: Libri
+    path: "/System/Applications/Utilities/Libri.app/"
+    pos: 26
+  - name: Anteprima
+    path: "/System/Applications/Utilities/Anteprima.app/"
+    pos: 27
+  - name: Reflector 3
+    path: "/Applications/Reflector 3.app/"
+    pos: 28
+  - name: Remote Desktop
+    path: "/Applications/Remote Desktop.app/"
+    pos: 29
+  - name: CleanMyMac X
+    path: "/Applications/CleanMyMac X.app/"
+    pos: 30
+  - name: Sensei
+    path: "/Applications/Sensei.app/"
+    pos: 31
+  - name: Maltego
+    path: "/Applications/Maltego.app/"
+    pos: 32
+  - name: Monitoraggio Attività
+    path: "/System/Applications/Utilities/Monitoraggio Attività.app"
+    pos: 33
+  - name: Informazioni di Sistema
+    path: "/System/Applications/Utilities/Informazioni di Sistema.app"
+    pos: 34
+  - name: App Store
+    path: "/System/Applications/Utilities/App Store.app"
+    pos: 35
+  - name: Calendario
+    path: "/System/Applications/Utilities/Calendario.app"
+    pos: 36
+  - name: Informazioni di Sistema
+    path: "/System/Applications/Utilities/Impostazioni di Sistema.app"
+    pos: 37
+  - name: Feedback Assistant
+    path: "/System/Applications/Utilities/Feedback Assistant.app"
+    pos: 33

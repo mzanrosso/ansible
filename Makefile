@@ -1,7 +1,7 @@
 # vim:ft=make
 # Makefile
 
-.PHONY: help install run brew_dump brew_inst #test
+.PHONY: help install run brew_dump brew_inst load_pl install_xcode
 .SILENT:
 
 default: help
@@ -16,8 +16,17 @@ run:	## Run ansible playbook
 	ansible-playbook main.yml --ask-become-pass --tags debug,vscode
 
 brew_dump:	## Dump Brewfile
-	brew bundle dump --file ./files/Brewfile
+	brew bundle dump --file ./files/Brewfile --force
 
 brew_inst:	## Install manually from Brewfile
+	sudo chown -R $(shell whoami) /usr/local/share/zsh /usr/local/share/zsh/site-functions
 	brew bundle --file ./files/Brewfile
 
+load_pl: # Load PowerLevel10k when it's not triggered automatically
+	source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
+	p10k configure
+
+install_xcode: # Install and setup xcode if it's not done automatically
+	mas install 497799835
+	sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
+	sudo xcodebuild -license accept

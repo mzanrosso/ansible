@@ -1,0 +1,6 @@
+---
+iterm2_fonts:
+  - url: https://github.com/romkatv/dotfiles-public/blob/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Regular.ttf?raw=true
+iterm2_preferences_custom_folder: "{{ playbook_dir }}/files"
+# BUGFIX: Unsupported parameters for (ansible.legacy.command) module
+iterm2_shell_integration: no

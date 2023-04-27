@@ -1,2 +1,4 @@
 roles/*
 .DS_store
+password.txt
+Brewfile.lock.json

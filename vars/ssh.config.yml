@@ -7,6 +7,13 @@ ssh_keys_pairs:
     path: "{{ ssh_keys_dir }}/id_ed25519"
     email: "{{ email }}"
     password: "{{ email }}"
+    github: 
+      - {
+        label: "SSH key from {{ ansible_hostname }}",
+        token: "{{ github_token }}"
+      }
+    bitbucket: 
+      - {}
 ssh_keys_config:
   - host: "*"
     config:

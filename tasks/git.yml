@@ -1,0 +1,12 @@
+---
+- name: Set up default git user email
+  community.general.git_config:
+    name: user.email
+    scope: global
+    value: '{{ email }}'
+
+- name: Set up default git user name
+  community.general.git_config:
+    name: user.name
+    scope: global
+    value: '{{ full_name }}'

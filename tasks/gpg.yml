@@ -1,4 +1,13 @@
 ---
+- name: Check if key already exist
+  shell: >
+    gpg --list-keys --list-options show-only-fpr-mbox \
+      '{{ email }}' | grep -oE "^([a-zA-Z0-9])*"
+  no_log: true
+  ignore_errors: true
+  register: check_key
+  tags: ["all", "gpg_create"]
+
 - name: Create gpg key
   shell: >
     gpg --batch --gen-key <<EOF
@@ -12,6 +21,8 @@
       %no-protection
     EOF
   no_log: true
+  when: >
+    (check_key.stdout | length <= 0)
   tags: ["all", "gpg_create"]
 
 - name: Register key fingerprint
@@ -34,8 +45,7 @@
     scope:  global
     value:  "{{ key_fingerprint.stdout }}"
   when: >
-    (key_fingerprint.stdout | length > 0) and
-    (key_fingerprint.stderr | length == 0)
+    (key_fingerprint.stdout | length > 0)
   tags: ["all", "gpg_create"]
 
 - name: Sign commits automatically
@@ -44,15 +54,6 @@
     scope:  global
     value:  "true"
   tags: ["all", "gpg_create"]
-
-- name: Delete gpg key
-  shell:
-    gpg --batch --delete-secret-and-public-key {{ key_fingerprint.stdout }}
-  when: >
-    (key_fingerprint.stdout | length > 0) and
-    (key_fingerprint.stderr | length == 0)
-  no_log: true
-  tags: ["gpg_delete"]
 
 - name: Configure signing key
   git_config:
@@ -68,3 +69,102 @@
     value:  "false"
   tags: ["gpg_delete"]
 
+- name: Register public armor
+  shell: >
+    gpg --export --armor {{ key_fingerprint.stdout }}
+  no_log: true
+  ignore_errors: true
+  when: >
+    (key_fingerprint.stdout | length > 0)
+  register: key_public_armor
+  tags: ["all", "gpg_create","gpg_delete"]
+
+- name: Print key_public_armor variable
+  debug:
+    var: key_public_armor.stdout
+  tags: ["debug"]
+
+- name: Get list of gpg keys added to GitHub
+  uri:
+    url: "https://api.github.com/user/gpg_keys"
+    method: GET
+    headers:
+      Accept: "application/vnd.github+json"
+      Authorization: "Bearer {{ github_token }}"
+    status_code: 200,304,401,403,404
+    return_content: yes
+  register: gpg_list_keys
+  failed_when: (gpg_list_keys.status != 200)
+  no_log: true
+  tags: ["all", "gpg_create","gpg_delete"]
+
+- name: Print gpg_list_keys variable
+  debug:
+    var: gpg_list_keys.json
+  tags: ["debug"]
+
+- name: Add gpg key to GitHub
+  uri:
+    url: "https://api.github.com/user/gpg_keys"
+    method: POST
+    body_format: json
+    body:
+      name: "Marco's gpg key from {{ ansible_hostname }}"
+      armored_public_key: "{{ key_public_armor.stdout }}"
+    headers:
+      Accept: "application/vnd.github+json"
+      Authorization: "Bearer {{ github_token }}"
+    status_code: 201,304,401,403,404,422
+    return_content: yes
+  when: >
+    (key_public_armor.stdout | length > 0) and
+    (key_public_armor.stderr | length == 0)
+  register: gpg_keys_github_response
+  failed_when: (gpg_keys_github_response.status != 201) and 
+    (gpg_keys_github_response.status != 422)
+  no_log: true
+  tags: ["all", "gpg_create"]
+
+- name: Get GH key_id of local key
+  command: /usr/bin/python3
+  args:
+    stdin: |
+      public_armor = """{{ key_public_armor.stdout }}"""
+      json_keys = {{ gpg_list_keys.json }}
+
+      for k in json_keys:
+        if k["raw_key"] == public_armor:
+          print(k["key_id"])
+  register: gh_key_id
+  tags: ["all","gpg_delete"]
+
+- name: Print gh_key_id variable
+  debug:
+    var: gh_key_id.stdout
+  tags: ["debug"]
+
+- name: Delete gpg key
+  shell:
+    gpg --batch --delete-secret-and-public-key {{ key_fingerprint.stdout }}
+  when: >
+    (key_fingerprint.stdout | length > 0)
+  no_log: true
+  tags: ["gpg_delete"]
+
+- name: Remove gpg key from GitHub
+  uri:
+    url: "https://api.github.com/user/gpg_keys/{{ gh_key_id.stdout }}"
+    method: DELETE
+    headers:
+      Accept: "application/vnd.github+json"
+      Authorization: "Bearer {{ github_token }}"
+    status_code: 204,304,401,403,404,422
+    return_content: yes
+  when: >
+    (gh_key_id.stdout | length > 0) and
+    (gh_key_id.stderr | length == 0)
+  register: gpg_keys_github_response
+  failed_when: (gpg_keys_github_response.status != 204) and 
+    (gpg_keys_github_response.status != 422)
+  no_log: true
+  tags: ["all", "gpg_delete"]

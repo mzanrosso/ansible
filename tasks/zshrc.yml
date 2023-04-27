@@ -1,0 +1,6 @@
+---
+- name: Set up .zshrc configuration
+  copy:
+    src: "{{ playbook_dir }}/files/.zshrc"
+    dest: "{{ ansible_env.HOME }}/.zshrc"
+  tags: ["all","zshrc"]

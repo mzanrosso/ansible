@@ -1,8 +1,13 @@
 ---
 collections:
+  - name: community.general
   - name: gordian_jklapacz.mac
 roles:
   - name: lwalley.ssh-keys
     src: https://github.com/lwalley/ansible-role-ssh-keys.git
   - name: lwalley.ssh-keys
     src: https://github.com/netson/ansible-gpg-key.git
+  - name: lwalley.iterm2
+    src: https://github.com/lwalley/ansible-role-iterm2.git
+  - name: gantsign.oh-my-zsh
+    

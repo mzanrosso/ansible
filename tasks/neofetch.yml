@@ -1,0 +1,6 @@
+---
+- name: Set up neofetch configuration
+  copy:
+    src: "{{ playbook_dir }}/files/neofetch.conf"
+    dest: "{{ ansible_env.HOME }}/.config/neofetch/config.conf"
+    tags: ["all","neofetch"]

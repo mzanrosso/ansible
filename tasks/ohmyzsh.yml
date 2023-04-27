@@ -1,0 +1,32 @@
+---
+- name: Install Oh My Zsh theme and plugins
+  git:
+    repo: "{{ item.url }}"
+    dest: "~/.oh-my-zsh/custom/{{ item.path }}"
+    depth: 1
+  with_items:
+    - {
+      url: "https://github.com/romkatv/powerlevel10k.git",
+      path: "themes/powerlevel10k"
+    }
+    - {
+      url: "https://github.com/zsh-users/zsh-syntax-highlighting.git",
+      path: "plugins/zsh-syntax-highlighting"
+    }
+    - {
+      url: "https://github.com/zsh-users/zsh-autosuggestions.git",
+      path: "plugins/zsh-autosuggestions"
+    }
+    - {
+      url: "https://github.com/bobthecow/git-flow-completion.git",
+      path: "plugins/git-flow-completion"
+    }
+    - {
+      url: "https://github.com/supercrabtree/k.git",
+      path: "plugins/k"
+    }
+    - {
+      url: "https://github.com/b4b4r07/enhancd.git",
+      path: "plugins/enhancd"
+    }
+  tags: ["all","ohmyzsh"]

@@ -3,3 +3,4 @@
   ansible.builtin.user:
     name: "{{ username }}"
     shell: /bin/zsh
+  tags: ["all","zsh"]

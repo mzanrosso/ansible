@@ -1,34 +1,129 @@
 ---
 - hosts: all
 
+  # Hopefully they wil add tags or when functionality to vars_prompt 
+  # avoiding being asked all the prompts even when one or few tags are specified.
+  # https://github.com/ansible/ansible/issues/1780
+  vars_prompt:
+    - name: "configure_iterm"
+      prompt: "Do you want to configure Iterm2 (yes/no)?"
+      default: yes
+      private: no
+    - name: "configure_ohmyzsh"
+      prompt: "Do you want to configure Oh My Zsh (yes/no)?"
+      default: yes
+      private: no
+    - name: "configure_homebrew"
+      prompt: "Do you want to configure Homebrew (yes/no)?"
+      default: yes
+      private: no
+    - name: "configure_dock"
+      prompt: "Do you want to configure MacOS dock (yes/no)?"
+      default: yes
+      private: no
+    - name: "configure_git"
+      prompt: "Do you want to configure Git (yes/no)?"
+      default: yes
+      private: no
+    - name: "configure_ssh"
+      prompt: "Do you want to configure SSH (yes/no)?"
+      default: yes
+      private: no
+    - name: "configure_gpg"
+      prompt: "Do you want to configure GPG (yes/no)?"
+      default: yes
+      private: no
+    - name: "configure_vscode"
+      prompt: "Do you want to configure VS Code (yes/no)?"
+      default: yes
+      private: no
+    - name: "configure_neofetch"
+      prompt: "Do you want to configure Neofetch (yes/no)?"
+      default: yes
+      private: no
+    - name: "configure_zshrc"
+      prompt: "Do you want to configure .zshrc (yes/no)?"
+      default: yes
+      private: no
+    - name: "configure_p10k"
+      prompt: "Do you want to configure .p10k.zsh (yes/no)?"
+      default: yes
+      private: no
+
   vars_files:
     - default.config.yml
-    - homebrew.config.yml
     - dock.config.yml
+    - homebrew.config.yml
+    - iterm.config.yml
+    - ohmyzsh.config.yml
     - ssh.config.yml
     - vscode.config.yml
 
-  #pre_task:
+  pre_tasks:
+    - name: Install Xcode
+      community.general.mas:
+        id: 497799835
+        state: present
 
   roles:
+    - name: Configure Iterm2
+      role: lwalley.iterm2
+      tags: ["all","iterm"]
+      when: configure_iterm | bool
+    
+    - name: Configure Oh My Zsh
+      role: gantsign.oh-my-zsh
+      tags: ["all","ohmyzsh"]
+      when: configure_ohmyzsh | bool
+
     - name: Configure Homebrew
       role: gordian_jklapacz.mac.homebrew
       tags: ["all", "homebrew"]
+      when: configure_homebrew | bool
 
-    - name: Configure dock
-      role: gordian_jklapacz.mac.dock
+    - name: Configure Dock
+      role: fubarhouse.macdock 
       tags: ["all", "dock"]
+      when: configure_dock | bool
 
     - name: Configure SSH
       role: lwalley.ssh-keys
       tags: ["all", "ssh"]
+      when: configure_ssh | bool
 
   tasks:
-    - include_tasks: tasks/gpg.yml
+    - name: Execute OhMyZsh tasks
+      include_tasks: tasks/ohmyzsh.yml
+      tags: ["all","ohmyzsh"]
+      when: configure_ohmyzsh | bool
+    - name: Execute Git tasks
+      include_tasks: tasks/git.yml
+      args:
+        apply:
+          tags: ["all", "git"]
+      tags: ["all","git"]
+      when: configure_git | bool
+    - name: Execute GPG tasks
+      include_tasks: tasks/gpg.yml
       tags: ["all", "gpg_create","gpg_delete"]
-    # NOTE: not tested and only limited to extensions
-    - include_tasks: tasks/vscode.yml
+      when: configure_gpg | bool
+    # NOTE: only limited to extensions
+    - name: Execute VS Code tasks
+      include_tasks: tasks/vscode.yml
       args:
         apply:
           tags: ["all", "vscode"]
       tags: ["all", "vscode"]
+      when: configure_vscode | bool
+    - name: Execute Neofetch tasks
+      include_tasks: tasks/neofetch.yml
+      tags: ["all", "neofetch"]
+      when: configure_neofetch | bool
+    - name: Execute zshrc tasks
+      include_tasks: tasks/zshrc.yml
+      tags: ["all", "zshrc"]
+      when: configure_zshrc | bool
+    - name: Execute p10k tasks
+      include_tasks: tasks/p10k.yml
+      tags: ["all", "p10k"]
+      when: configure_p10k | bool

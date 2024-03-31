@@ -17,7 +17,7 @@
 	<key>BootstrapDaemon</key>
 	<false/>
 	<key>BracketedPasteMode</key>
-	<true/>
+	<false/>
 	<key>CloseBookmarksWindowAfterOpening</key>
 	<false/>
 	<key>Command</key>

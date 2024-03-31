@@ -1,9 +1,10 @@
 ---
-homebrew_prefix: "{{ (ansible_machine == 'arm64') | ternary('/opt/homebrew', '/usr/local') }}"
-homebrew_install_path: "{{ homebrew_prefix }}/Homebrew"
-homebrew_brew_bin_path: "{{ homebrew_prefix }}/bin"
-homebrew_upgrade_all_packages: true
+homebrew_upgrade_all_packages: false
 homebrew_use_brewfile: true
+homebrew_brew_bin_path: "{{ homebrew_prefix }}/bin"
+homebrew_install_path: "{{ homebrew_prefix }}/Homebrew"
 homebrew_brewfile_dir: "{{ playbook_dir }}/files"
+homebrew_prefix: "{{ (ansible_machine == 'arm64') | ternary('/opt/homebrew', '/usr/local') }}"
+homebrew_taps: []
 
 mas_upgrade_all_apps: false

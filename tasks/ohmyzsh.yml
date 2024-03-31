@@ -29,4 +29,4 @@
       url: "https://github.com/b4b4r07/enhancd.git",
       path: "plugins/enhancd"
     }
-  tags: ["all","ohmyzsh"]
+  tags: ["all", "ohmyzsh"]

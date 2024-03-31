@@ -7,21 +7,21 @@ ssh_keys_pairs:
     path: "{{ ssh_keys_dir }}/id_ed25519"
     email: "{{ email }}"
     password: "{{ email }}"
-    github: 
+    github:
       - {
         label: "SSH key from {{ ansible_hostname }}",
         token: "{{ github_token }}"
       }
-    bitbucket: 
+    bitbucket:
       - {}
 ssh_keys_config:
   - host: "*"
     config:
-      - [ "AddKeysToAgent", "yes" ]
-      - [ "UseKeychain", "yes" ]
+      - ["AddKeysToAgent", "yes"]
+      - ["UseKeychain", "yes"]
   - host: "Github"
     config:
-      - [ "User", "git" ]
-      - [ "HostName", "github.com" ]
-      - [ "PreferredAuthentications", "publickey" ]
-      - [ "IdentityFile", "~/.ssh/id_ed25519" ]
+      - ["User", "git"]
+      - ["HostName", "github.com"]
+      - ["PreferredAuthentications", "publickey"]
+      - ["IdentityFile", "~/.ssh/id_ed25519"]

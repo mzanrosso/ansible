@@ -8,16 +8,22 @@
 - name: get installed extensions
   command: code --list-extensions
   register: installed_extensions
+  check_mode: false
   changed_when: false
 
 - name: Print installed_extensions variable
   debug:
-    var: installed_extensions.stdout
-  tags: ["debug"]
+    msg: "vscode_extensions:\n{{installed_extensions.stdout.split('\n') | map('regex_replace', '^(.*)$', '  - \\1') | join('\n') }}"
+  when: "'debug' in ansible_run_tags"
+
+- name: Compare installed and desired extensions
+  debug:
+    msg: "Extensions to install:\n{{ installed_extensions.stdout.split('\n') | difference(vscode_extensions) | map('regex_replace', '^(.*)$', '  - \\1') | join('\n') }}"
+  when: "'debug' in ansible_run_tags"
 
 - name: ensure vscode extensions installed
   shell: "code --install-extension {{ item }}"
-  with_items: "{{ vscode_extensions or [] }}"
+  with_items: "{{ (not ansible_check_mode and vscode_extensions) or [] }}"
   when: not (item in (installed_extensions.stdout.split('\n') or []))
   register: ret
   changed_when: '"is already installed" not in ret.stdout'
@@ -25,7 +31,10 @@
 
 - name: ensure unneeded extensions removed
   shell: "code --uninstall-extension {{ item }}"
-  with_items: "{{ installed_extensions.stdout.split('\n') }}"
+  with_items:
+    "{{ (not ansible_check_mode and
+    installed_extensions.stdout.split('\n'))
+    or [] }}"
   when: not (item in (vscode_extensions or []))
   register: ret_uninstall
   changed_when: '"was successfully uninstalled" not in ret_uninstall.stdout'

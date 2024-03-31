@@ -1,5 +1,6 @@
 ---
 full_name: "Marco Zanrosso"
-email: "PLACEHOLDER"
+git_username: "PLACEHOLDER"
+email: PLACEHOLDER"
 username: lookup('env', 'USER')
 github_token: "PLACEHOLDER"

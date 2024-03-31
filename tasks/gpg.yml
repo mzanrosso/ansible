@@ -32,7 +32,7 @@
   no_log: true
   ignore_errors: true
   register: key_fingerprint
-  tags: ["all", "gpg_create","gpg_delete"]
+  tags: ["all", "gpg_create", "gpg_delete"]
 
 - name: Print key_fingerprint variable
   debug:
@@ -41,32 +41,32 @@
 
 - name: Configure signing key
   git_config:
-    name:   user.signingKey
-    scope:  global
-    value:  "{{ key_fingerprint.stdout }}"
+    name: user.signingKey
+    scope: global
+    value: "{{ key_fingerprint.stdout }}"
   when: >
     (key_fingerprint.stdout | length > 0)
   tags: ["all", "gpg_create"]
 
 - name: Sign commits automatically
   git_config:
-    name:   commit.gpgsign
-    scope:  global
-    value:  "true"
+    name: commit.gpgsign
+    scope: global
+    value: "true"
   tags: ["all", "gpg_create"]
 
 - name: Configure signing key
   git_config:
-    name:   user.signingKey
-    scope:  global
-    value:  ""
+    name: user.signingKey
+    scope: global
+    value: ""
   tags: ["gpg_delete"]
 
 - name: Sign commits automatically
   git_config:
-    name:   commit.gpgsign
-    scope:  global
-    value:  "false"
+    name: commit.gpgsign
+    scope: global
+    value: "false"
   tags: ["gpg_delete"]
 
 - name: Register public armor
@@ -77,7 +77,10 @@
   when: >
     (key_fingerprint.stdout | length > 0)
   register: key_public_armor
-  tags: ["all", "gpg_create","gpg_delete"]
+  failed_when: >
+    (key_public_armor.stdout | length <= 0) or
+    (key_public_armor.stderr | length > 0)
+  tags: ["all", "gpg_create", "gpg_delete"]
 
 - name: Print key_public_armor variable
   debug:
@@ -92,11 +95,11 @@
       Accept: "application/vnd.github+json"
       Authorization: "Bearer {{ github_token }}"
     status_code: 200,304,401,403,404
-    return_content: yes
+    return_content: true
   register: gpg_list_keys
   failed_when: (gpg_list_keys.status != 200)
   no_log: true
-  tags: ["all", "gpg_create","gpg_delete"]
+  tags: ["all", "gpg_create", "gpg_delete"]
 
 - name: Print gpg_list_keys variable
   debug:
@@ -115,12 +118,11 @@
       Accept: "application/vnd.github+json"
       Authorization: "Bearer {{ github_token }}"
     status_code: 201,304,401,403,404,422
-    return_content: yes
+    return_content: true
   when: >
-    (key_public_armor.stdout | length > 0) and
-    (key_public_armor.stderr | length == 0)
+    not ansible_check_mode
   register: gpg_keys_github_response
-  failed_when: (gpg_keys_github_response.status != 201) and 
+  failed_when: (gpg_keys_github_response.status != 201) and
     (gpg_keys_github_response.status != 422)
   no_log: true
   tags: ["all", "gpg_create"]
@@ -136,7 +138,11 @@
         if k["raw_key"] == public_armor:
           print(k["key_id"])
   register: gh_key_id
-  tags: ["all","gpg_delete"]
+  when: not ansible_check_mode
+  failed_when: >
+    (gh_key_id.stdout | length <= 0) or
+    (gh_key_id.stderr | length > 0)
+  tags: ["all", "gpg_delete"]
 
 - name: Print gh_key_id variable
   debug:
@@ -159,12 +165,10 @@
       Accept: "application/vnd.github+json"
       Authorization: "Bearer {{ github_token }}"
     status_code: 204,304,401,403,404,422
-    return_content: yes
-  when: >
-    (gh_key_id.stdout | length > 0) and
-    (gh_key_id.stderr | length == 0)
+    return_content: true
+  when: not ansible_check_mode
   register: gpg_keys_github_response
-  failed_when: (gpg_keys_github_response.status != 204) and 
+  failed_when: (gpg_keys_github_response.status != 204) and
     (gpg_keys_github_response.status != 422)
   no_log: true
   tags: ["all", "gpg_delete"]

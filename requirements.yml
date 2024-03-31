@@ -10,4 +10,3 @@ roles:
   - name: lwalley.iterm2
     src: https://github.com/lwalley/ansible-role-iterm2.git
   - name: gantsign.oh-my-zsh
-    

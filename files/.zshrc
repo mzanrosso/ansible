@@ -5,15 +5,14 @@ export TERM="xterm-256color"
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
-# source ~/.zshrc to update theme without exiting 
+# source ~/.zshrc to update theme without exiting
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k"
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 POWERLEVEL9K_RPROMPT_ON_NEWLINE=true
-POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="╰─⌦ " 
+POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="╰─⌦ "
 POWERLEVEL9K_MODE='awesome-fontconfig'
 POWERLEVEL9K_INSTANT_PROMPT=off
-
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
@@ -21,12 +20,12 @@ POWERLEVEL9K_INSTANT_PROMPT=off
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-git
-zsh-syntax-highlighting
-zsh-autosuggestions
-git-flow-completion
-k
-enhancd
+    git
+    zsh-syntax-highlighting
+    zsh-autosuggestions
+    git-flow-completion
+    k
+    enhancd
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -81,7 +80,7 @@ alias resets1="git reset --soft HEAD~1"
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
-zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash
+zstyle ':completion:*:*:git:*' script /usr/local/etc/bash_completion.d/git-completion.bash
 fpath=(~/.zsh $fpath)
 
 autoload -Uz compinit && compinit
@@ -97,3 +96,15 @@ fi
 
 bindkey \^U backward-kill-line
 source /usr/local/opt/git-extras/share/git-extras/git-extras-completion.zsh
+
+export PATH="$HOME/.moon/bin:$PATH"
+
+# pnpm
+export PNPM_HOME="/Users/marco.zanrosso/Library/pnpm"
+case ":$PATH:" in
+*":$PNPM_HOME:"*) ;;
+*) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"

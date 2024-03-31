@@ -235,6 +235,10 @@
       "keyCode" : 83,
       "modifierFlags" : 1310720
     },
+    "firstTwoThirds" : {
+      "keyCode" : 86,
+      "modifierFlags" : 1310720
+    },
     "larger" : {
       "keyCode" : 30,
       "modifierFlags" : 1310720
@@ -245,6 +249,10 @@
     },
     "lastThird" : {
       "keyCode" : 85,
+      "modifierFlags" : 1310720
+    },
+    "lastTwoThirds" : {
+      "keyCode" : 87,
       "modifierFlags" : 1310720
     },
     "leftHalf" : {
